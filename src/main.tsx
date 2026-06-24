@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Registro from './pages/Registro';
+import Directorio from './pages/Directorio';
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
@@ -12,7 +13,7 @@ createRoot(document.getElementById('root')!).render(
       <Routes>
         {/* Ruta pública principal */}
         <Route path="/" element={<Landing />} />
-        
+        <Route path="/directorio" element={<Directorio />} />
         {/* Panel de administración */}
         <Route path="/dashboard" element={<Dashboard />} />
         
