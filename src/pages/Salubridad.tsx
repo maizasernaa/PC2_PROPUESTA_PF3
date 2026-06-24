@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
+// CORRECCIÓN AQUÍ: Agrega los iconos que faltan en el import
 import { ShieldCheck, ClipboardCheck } from 'lucide-react';
-
 export default function Salubridad() {
   const [calificacion, setCalificacion] = useState(0);
 
