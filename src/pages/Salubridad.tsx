@@ -1,5 +1,5 @@
 import Navbar from '../components/Navbar';
-import { ShieldCheck, ClipboardCheck, FileText, CheckCircle, XCircle } from 'lucide-react';
+import { ShieldCheck } from 'lucide-react';
 
 export default function Salubridad() {
   return (
@@ -14,16 +14,11 @@ export default function Salubridad() {
           <h1 className="text-4xl font-extrabold text-gray-900">Portal de Inspección</h1>
         </header>
 
-        <section className="grid md:grid-cols-3 gap-6 mb-12">
-          {/* Tarjetas de estado simplificadas */}
-          <div className="bg-white p-6 rounded-2xl border shadow-sm flex items-center gap-4">
-            <div className="p-3 bg-emerald-100 rounded-xl text-emerald-600"><CheckCircle /></div>
-            <div>
-              <p className="text-sm text-gray-500">Aprobados</p>
-              <p className="text-2xl font-bold">24</p>
-            </div>
-          </div>
-          {/* ... otras tarjetas ... */}
+        <section className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+          <h2 className="text-xl font-bold mb-4">Bienvenido al sistema</h2>
+          <p className="text-gray-600">
+            Aquí podrás gestionar el registro de salubridad de los comercios del mercado.
+          </p>
         </section>
       </main>
     </div>
