@@ -5,22 +5,18 @@ import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Registro from './pages/Registro';
 import Directorio from './pages/Directorio';
+import Salubridad from './pages/Salubridad'; // Importación necesaria
 import './index.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        {/* Ruta pública principal */}
         <Route path="/" element={<Landing />} />
         <Route path="/directorio" element={<Directorio />} />
-        {/* Panel de administración */}
         <Route path="/dashboard" element={<Dashboard />} />
-        
-        {/* Formulario de registro (formalización) */}
         <Route path="/registro" element={<Registro />} />
-        
-        {/* Redirección por defecto ante rutas inexistentes */}
+        <Route path="/salubridad" element={<Salubridad />} /> {/* Ruta activada */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
