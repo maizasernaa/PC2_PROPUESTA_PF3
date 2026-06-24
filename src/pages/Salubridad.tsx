@@ -1,68 +1,62 @@
 import { useState } from 'react';
-import Navbar from '../components/Navbar'; // Esto sube un nivel a 'src' y luego entra a 'components'
-import { ShieldCheck, ClipboardCheck } from 'lucide-react';
+import Navbar from '../components/Navbar';
+import { ShieldCheck, ClipboardCheck, AlertCircle } from 'lucide-react';
+
 export default function Salubridad() {
-  const [calificacion, setCalificacion] = useState(0);
+  const [active, setActive] = useState(true);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
-      <main className="max-w-6xl mx-auto px-6 pt-32 pb-20">
-        {/* Encabezado */}
-        <div className="mb-10">
-          <div className="flex items-center gap-3 text-emerald-600 bg-emerald-50 px-4 py-2 rounded-full w-fit mb-4">
-            <ShieldCheck size={18} />
-            <span className="text-sm font-semibold uppercase tracking-wider">Portal sanitario</span>
+      <main className="max-w-6xl mx-auto px-6 pt-28 pb-12">
+        {/* Header de Salubridad */}
+        <div className="flex justify-between items-end mb-8">
+          <div>
+            <div className="flex items-center gap-2 text-emerald-600 mb-2">
+              <ShieldCheck size={20} />
+              <span className="font-bold tracking-wider uppercase text-sm">Control Sanitario</span>
+            </div>
+            <h1 className="text-4xl font-extrabold text-gray-900">Gestión de Salubridad</h1>
+            <p className="text-gray-500 mt-2 text-lg">Registro y seguimiento de actas sanitarias para puestos formales.</p>
           </div>
-          <h1 className="text-4xl font-bold text-gray-900">Salubridad</h1>
-          <p className="text-gray-500 mt-2 text-lg">Completa el acta sanitaria del puesto y queda registrada como evidencia.</p>
+          <button className="bg-emerald-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-emerald-700 transition">
+            + Nueva Acta
+          </button>
         </div>
 
-        {/* Grid Principal */}
-        <div className="grid md:grid-cols-2 gap-10">
-          {/* Formulario */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm space-y-6">
-            <h2 className="text-xl font-bold flex items-center gap-2"><ClipboardCheck /> Nueva acta</h2>
-            
-            <input className="w-full p-4 border rounded-xl" placeholder="Código de puesto" />
-            <input className="w-full p-4 border rounded-xl" placeholder="Nombre del comerciante" />
-
-            <div className="space-y-2">
-              <label className="text-sm font-semibold text-gray-600">Nivel de Higiene (1-5)</label>
-              <div className="flex gap-2">
-                {[1, 2, 3, 4, 5].map((n) => (
-                  <button key={n} onClick={() => setCalificacion(n)} className={`w-12 h-12 rounded-full font-bold ${calificacion === n ? 'bg-emerald-600 text-white' : 'bg-gray-100'}`}>
-                    {n}
-                  </button>
-                ))}
-              </div>
+        {/* Tarjetas de estadísticas */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {[
+            { title: 'Actas Pendientes', value: '12', color: 'text-amber-600' },
+            { title: 'Aprobados hoy', value: '45', color: 'text-emerald-600' },
+            { title: 'Rechazados', value: '3', color: 'text-red-600' },
+          ].map((stat, i) => (
+            <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+              <p className="text-sm text-gray-500">{stat.title}</p>
+              <p className={`text-3xl font-bold mt-1 ${stat.color}`}>{stat.value}</p>
             </div>
+          ))}
+        </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {['Área limpia', 'Almacenamiento', 'Carnet sanitario', 'Control plagas'].map((item) => (
-                <label key={item} className="flex items-center gap-2 text-sm p-3 border rounded-xl">
-                  <input type="checkbox" className="w-4 h-4 accent-emerald-600" /> {item}
-                </label>
-              ))}
-            </div>
-
-            <textarea className="w-full p-4 border rounded-xl" rows={3} placeholder="Observaciones..." />
-            
-            <div className="flex gap-2">
-              {['Aprobado', 'Observado', 'Rechazado'].map((estado) => (
-                <button key={estado} className="flex-1 py-3 rounded-xl border font-bold hover:bg-emerald-50">{estado}</button>
-              ))}
-            </div>
-            
-            <button className="w-full py-4 bg-emerald-600 text-white rounded-xl font-bold">Registrar acta</button>
+        {/* Contenido Principal */}
+        <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+          <div className="flex items-center gap-2 mb-6">
+            <ClipboardCheck className="text-gray-400" />
+            <h2 className="text-xl font-bold">Listado de Actas Recientes</h2>
           </div>
-
-          {/* Registro Lateral */}
-          <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm h-fit">
-            <h3 className="text-xl font-bold mb-4">Actas registradas</h3>
-            <div className="text-center py-10 border-2 border-dashed rounded-2xl">
-              <p className="text-gray-400">Aún no hay actas registradas.</p>
+          
+          <div className="space-y-4">
+            {/* Ejemplo de fila de acta */}
+            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">A-12</div>
+                <div>
+                  <p className="font-bold">María Gonzales</p>
+                  <p className="text-sm text-gray-500">Fecha: 23/06/2026 - Aprobado</p>
+                </div>
+              </div>
+              <button className="text-sm text-emerald-600 font-bold hover:underline">Ver detalle</button>
             </div>
           </div>
         </div>
