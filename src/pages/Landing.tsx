@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Store, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Store, Truck, ShieldCheck } from 'lucide-react';
 
 export default function Landing() {
   return (
