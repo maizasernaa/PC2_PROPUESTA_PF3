@@ -4,7 +4,6 @@ import { Store, Truck, ShieldCheck } from 'lucide-react';
 export default function Landing() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Hero Section */}
       <nav className="p-6 flex justify-between items-center max-w-6xl mx-auto">
         <h1 className="text-2xl font-bold text-emerald-600">LaParadaDigital</h1>
         <Link to="/dashboard" className="bg-gray-900 text-white px-6 py-2 rounded-full font-medium hover:bg-gray-800 transition">
@@ -24,11 +23,15 @@ export default function Landing() {
             { icon: Truck, title: "Logística Segura", desc: "Estibadores validados para carga." },
             { icon: ShieldCheck, title: "Salubridad Total", desc: "Seguimiento de calidad de productos." }
           ].map((feat, i) => (
-            <div key={i} className="p-8 bg-gray-50 rounded-3xl border border-gray-100">
+            <button 
+              key={i} 
+              onClick={() => alert(`Explorando: ${feat.title}`)}
+              className="p-8 bg-gray-50 rounded-3xl border border-gray-100 hover:border-emerald-500 hover:shadow-xl transition-all text-center w-full"
+            >
               <feat.icon className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
               <h3 className="text-xl font-bold">{feat.title}</h3>
               <p className="text-gray-600 mt-2">{feat.desc}</p>
-            </div>
+            </button>
           ))}
         </div>
       </main>
