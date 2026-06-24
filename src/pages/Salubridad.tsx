@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar'; // Esto sube un nivel a 'src' y luego entra a 'components'
 import { ShieldCheck, ClipboardCheck } from 'lucide-react';
 export default function Salubridad() {
   const [calificacion, setCalificacion] = useState(0);
