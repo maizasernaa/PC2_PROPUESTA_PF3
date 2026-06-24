@@ -1,16 +1,13 @@
-import { useState } from 'react';
 import Navbar from '../components/Navbar';
-import { ShieldCheck, ClipboardCheck, AlertCircle } from 'lucide-react';
+import { ShieldCheck, ClipboardCheck } from 'lucide-react';
 
 export default function Salubridad() {
-  const [active, setActive] = useState(true);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navbar />
       
       <main className="max-w-6xl mx-auto px-6 pt-28 pb-12">
-        {/* Header de Salubridad */}
+        {/* Header */}
         <div className="flex justify-between items-end mb-8">
           <div>
             <div className="flex items-center gap-2 text-emerald-600 mb-2">
@@ -25,7 +22,7 @@ export default function Salubridad() {
           </button>
         </div>
 
-        {/* Tarjetas de estadísticas */}
+        {/* Estadísticas */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           {[
             { title: 'Actas Pendientes', value: '12', color: 'text-amber-600' },
@@ -39,7 +36,7 @@ export default function Salubridad() {
           ))}
         </div>
 
-        {/* Contenido Principal */}
+        {/* Listado */}
         <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
           <div className="flex items-center gap-2 mb-6">
             <ClipboardCheck className="text-gray-400" />
@@ -47,7 +44,6 @@ export default function Salubridad() {
           </div>
           
           <div className="space-y-4">
-            {/* Ejemplo de fila de acta */}
             <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100">
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">A-12</div>
