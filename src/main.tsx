@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Registro from './pages/Registro';
+import Logistica from './pages/Logistica'; // 1. Importa
 import Directorio from './pages/Directorio';
 import Salubridad from './pages/Salubridad'; // Importación necesaria
 import './index.css';
