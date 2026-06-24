@@ -1,19 +1,27 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Dashboard from './pages/Dashboard';
 import Registro from './pages/Registro';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
     <BrowserRouter>
       <Routes>
+        {/* Ruta pública principal */}
         <Route path="/" element={<Landing />} />
+        
+        {/* Panel de administración */}
         <Route path="/dashboard" element={<Dashboard />} />
+        
+        {/* Formulario de registro (formalización) */}
         <Route path="/registro" element={<Registro />} />
+        
+        {/* Redirección por defecto ante rutas inexistentes */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
-  </React.StrictMode>
+  </StrictMode>
 );
