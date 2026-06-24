@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
-import { Store, Search } from 'lucide-react';
+import { Store } from 'lucide-react';
 
 interface Comerciante {
   id: string;
@@ -38,6 +38,9 @@ export default function Directorio() {
               </span>
             </div>
           ))}
+          {comerciantes.length === 0 && (
+            <p className="text-gray-500 col-span-3 text-center">No hay proveedores registrados aún.</p>
+          )}
         </div>
       </div>
     </div>
