@@ -16,6 +16,7 @@ createRoot(document.getElementById('root')!).render(
         <Route path="/directorio" element={<Directorio />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/logistica" element={<Logistica />} />
         <Route path="/salubridad" element={<Salubridad />} /> {/* Ruta activada */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
