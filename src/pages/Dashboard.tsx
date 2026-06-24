@@ -1,190 +1,89 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
-import { Users, Truck, Package, ShieldCheck } from 'lucide-react';
-
-interface Comerciante {
-  id: string;
-  nombre_completo: string;
-  rubro: string;
-  puesto: string;
-}
-
-interface Estibador {
-  id: string;
-  nombre_completo: string;
-  dni: string;
-  estado: string;
-}
+import { Users, Truck, Package } from 'lucide-react';
+import Navbar from '../components/Navbar';
 
 export default function Dashboard() {
-  const [comerciantes, setComerciantes] = useState<Comerciante[]>([]);
-  const [estibadores, setEstibadores] = useState<Estibador[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [comerciantes, setComerciantes] = useState<any[]>([]);
+  const [estibadores, setEstibadores] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const { data: comerciantesData, error: errorC } = await supabase
-          .from('comerciantes')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        const { data: estibadoresData, error: errorE } = await supabase
-          .from('estibadores')
-          .select('*')
-          .order('created_at', { ascending: false });
-
-        if (errorC) throw errorC;
-        if (errorE) throw errorE;
-
-        setComerciantes(comerciantesData || []);
-        setEstibadores(estibadoresData || []);
-      } catch (error) {
-        console.error('Error al obtener los datos:', error);
-      } finally {
-        setLoading(false);
-      }
+      const { data: cData } = await supabase.from('comerciantes').select('*');
+      const { data: eData } = await supabase.from('estibadores').select('*');
+      setComerciantes(cData || []);
+      setEstibadores(eData || []);
     };
-
     fetchData();
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="min-h-screen bg-gray-50 pt-24 pb-12">
+      <Navbar />
+      <div className="max-w-6xl mx-auto px-6">
         
-        {/* Encabezado */}
-        <header className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">Sistema de Control - La Parada</h1>
-            <p className="text-gray-500 mt-1">Gestión formal de comerciantes y registro de estibaje</p>
-          </div>
-          <ShieldCheck className="w-10 h-10 text-emerald-600" />
-        </header>
+        {/* Header del Dashboard */}
+        <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Sistema de Control - La Parada</h1>
+          <p className="text-gray-500 mt-2">Gestión formal de comerciantes y registro de estibaje</p>
+        </div>
 
         {/* Tarjetas de Estadísticas */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-4 hover:shadow-md transition-shadow">
-            <div className="p-3 bg-blue-50 text-blue-600 rounded-lg">
-              <Users className="w-6 h-6" />
+        <div className="grid md:grid-cols-3 gap-6 mb-8">
+          {[
+            { title: "Comerciantes Formalizados", count: comerciantes.length, icon: Users, color: "text-blue-600" },
+            { title: "Estibadores Empadronados", count: estibadores.length, icon: Truck, color: "text-emerald-600" },
+            { title: "Rubros Controlados", count: 3, icon: Package, color: "text-orange-600" }
+          ].map((stat, i) => (
+            <div key={i} className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+              <div className="flex justify-between items-center">
+                <p className="text-sm text-gray-500 font-medium">{stat.title}</p>
+                <stat.icon className={`w-5 h-5 ${stat.color}`} />
+              </div>
+              <h2 className="text-3xl font-bold mt-2">{stat.count}</h2>
             </div>
-            <div>
-              <p className="text-sm text-gray-500 font-medium">Comerciantes Formalizados</p>
-              <p className="text-2xl font-bold text-gray-900">{comerciantes.length}</p>
+          ))}
+        </div>
+
+        {/* Tablas de Gestión */}
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Padrón de Comerciantes */}
+          <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold">Padrón de Comerciantes</h3>
+              <Link to="/registro" className="text-sm text-blue-600 font-bold hover:underline">
+                + Nuevo Registro
+              </Link>
+            </div>
+            <div className="space-y-4">
+              {comerciantes.map((c) => (
+                <div key={c.id} className="flex justify-between p-4 bg-gray-50 rounded-xl">
+                  <span className="font-medium">{c.nombre_completo}</span>
+                  <span className="text-gray-500 text-sm">{c.puesto}</span>
+                </div>
+              ))}
             </div>
           </div>
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-4 hover:shadow-md transition-shadow">
-            <div className="p-3 bg-orange-50 text-orange-600 rounded-lg">
-              <Truck className="w-6 h-6" />
+
+          {/* Control de Estibadores */}
+          <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-xl font-bold">Control de Estibadores</h3>
+              <Link to="/registro" className="text-sm text-emerald-600 font-bold hover:underline">
+                + Nuevo Registro
+              </Link>
             </div>
-            <div>
-              <p className="text-sm text-gray-500 font-medium">Estibadores Empadronados</p>
-              <p className="text-2xl font-bold text-gray-900">{estibadores.length}</p>
-            </div>
-          </div>
-          <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-center space-x-4 hover:shadow-md transition-shadow">
-            <div className="p-3 bg-green-50 text-green-600 rounded-lg">
-              <Package className="w-6 h-6" />
-            </div>
-            <div>
-              <p className="text-sm text-gray-500 font-medium">Rubros Controlados</p>
-              <p className="text-2xl font-bold text-gray-900">3</p>
+            <div className="space-y-4">
+              {estibadores.map((e) => (
+                <div key={e.id} className="flex justify-between p-4 bg-gray-50 rounded-xl">
+                  <span className="font-medium">{e.nombre_completo}</span>
+                  <span className="text-emerald-600 font-semibold text-xs bg-emerald-50 px-2 py-1 rounded">Activo</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-
-        {/* Sección de Tablas */}
-        {loading ? (
-          <div className="text-center py-12 text-gray-500 font-medium animate-pulse">
-            Sincronizando con Supabase...
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            
-            {/* Tabla Comerciantes */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-900">Padrón de Comerciantes</h2>
-                <a href="/registro" className="text-sm text-blue-600 font-semibold hover:text-blue-700">
-                  + Nuevo Registro
-                </a>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-gray-600">
-                  <thead className="bg-gray-50 text-gray-700">
-                    <tr>
-                      <th className="px-6 py-4 font-semibold">Nombre Completo</th>
-                      <th className="px-6 py-4 font-semibold">Rubro</th>
-                      <th className="px-6 py-4 font-semibold">Puesto</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {comerciantes.map((c) => (
-                      <tr key={c.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4 font-medium text-gray-900">{c.nombre_completo}</td>
-                        <td className="px-6 py-4">
-                          <span className="px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md text-xs font-semibold tracking-wide">
-                            {c.rubro}
-                          </span>
-                        </td>
-                        <td className="px-6 py-4 text-gray-500">{c.puesto}</td>
-                      </tr>
-                    ))}
-                    {comerciantes.length === 0 && (
-                      <tr>
-                        <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
-                          No hay comerciantes registrados aún.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Tabla Estibadores */}
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-              <div className="p-6 border-b border-gray-100 flex justify-between items-center">
-                <h2 className="text-xl font-bold text-gray-900">Control de Estibadores</h2>
-                <a href="/registro" className="text-sm text-emerald-600 font-semibold hover:text-emerald-700">
-                  + Nuevo Registro
-                </a>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm text-gray-600">
-                  <thead className="bg-gray-50 text-gray-700">
-                    <tr>
-                      <th className="px-6 py-4 font-semibold">Nombre Completo</th>
-                      <th className="px-6 py-4 font-semibold">DNI</th>
-                      <th className="px-6 py-4 font-semibold">Estado</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {estibadores.map((e) => (
-                      <tr key={e.id} className="hover:bg-gray-50 transition-colors">
-                        <td className="px-6 py-4 font-medium text-gray-900">{e.nombre_completo}</td>
-                        <td className="px-6 py-4 text-gray-500">{e.dni}</td>
-                        <td className="px-6 py-4">
-                          <span className="px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-md text-xs font-semibold tracking-wide">
-                            {e.estado}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                    {estibadores.length === 0 && (
-                      <tr>
-                        <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
-                          No hay estibadores registrados aún.
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-          </div>
-        )}
       </div>
     </div>
   );
